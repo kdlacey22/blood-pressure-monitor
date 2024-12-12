@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" manifest="manifest.appcache">
+<head>
+    <title>Enter Blood Pressure</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <script src="scripts/jquery-1.9.1.min.js"></script>
+    <script src="scripts/jquery.mobile-1.3.1.min.js"></script>
+</head>
+
+<body>
+    <div id="navbar"></div> <!-- Navigation bar -->
+    <div data-role="page" id="bloodpressuredataPage">
+        <div data-role="header">
+            <h1>Enter Blood Pressure Data</h1>
+        </div>
+        <div data-role="content">
+            <form id="bpForm">
+                <label for="systolic">Systolic Pressure:</label>
+                <input type="number" id="systolic" name="systolic" required>
+
+                <label for="diastolic">Diastolic Pressure:</label>
+                <input type="number" id="diastolic" name="diastolic" required>
+
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+
+                <button type="submit">Save Data</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('#bpForm');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const systolic = parseInt(document.getElementById('systolic').value, 10);
+                const diastolic = parseInt(document.getElementById('diastolic').value, 10);
+                const date = document.getElementById('date').value;
+
+                // Validate input values
+                if (systolic > 200 || systolic < 60) {
+                    alert('Please enter a valid systolic value (60-200).');
+                    return;
+                }
+                if (diastolic > 120 || diastolic < 40) {
+                    alert('Please enter a valid diastolic value (40-120).');
+                    return;
+                }
+
+                // Retrieve existing data
+                let bpData = JSON.parse(localStorage.getItem('bpData')) || [];
+                bpData.push({ systolic, diastolic, date });
+
+                // Save updated data
+                localStorage.setItem('bpData', JSON.stringify(bpData));
+                alert('Blood Pressure data saved successfully');
+
+                // Clear the form after submission
+                form.reset();
+            });
+        });
+    </script>
+    <script src="scripts/nav.js"></script> <!-- reusable navigation script -->
+</body>
+</html>

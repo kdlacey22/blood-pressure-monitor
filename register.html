@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" manifest="manifest.appcache">
+<head>
+    <title>Register - Blood Pressure Monitor</title>
+    
+    <!-- Adjusting the page on mobile screens -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <script src="scripts/jquery-1.9.1.min.js"></script>
+    <script src="scripts/jquery.mobile-1.3.1.min.js"></script>
+</head>
+
+<body>
+    <div data-role="page" id="registerPage">
+        <div data-role="header">
+            <h1>Create Personal ID</h1>
+        </div>
+
+        <!-- Content -->
+         <div data-role="content">
+            <form id="registerForm" class="form-group" onsubmit="return false;">
+                <div class="mb-3">
+                    <label for="newId" class="form-label">Create a Unique ID:</label>
+                    <input type="text" id="newId" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="newPassword" class="form-label">Create a Password:</label>
+                    <input type="password" id="newPassword" class="form-control" required>
+                </div>
+                <div id="passwordStrength" class="mb-3"></div>
+                <button type="button" onclick="register()">Register</button>
+            </form>
+            <p>Already have an account? <a href="default.html">Log in here</a></p>
+         </div>
+    </div>
+
+    <script>
+        // Password strength indicator
+        document.getElementById('newPassword').addEventListener('input', function (){
+            const password = this.value;
+            const strengthElement = document.getElementById('passwordStrength');
+            if (password.length < 6) {
+                strengthElement.textContent = 'Weak';
+                strengthElement.style.color = 'red';
+            }else if (password.length <10) {
+                strengthElement.textContent = 'Moderate';
+                strengthElement.style.color = 'orange';
+            }else {
+                strengthElement.textContent = 'Strong';
+                strengthElement.style.color = 'green';
+            }
+        });
+
+        //Registration
+        function register() {
+            const newId = document.getElementById('newId').value;
+            const newPassword = document.getElementById('newPassword').value;
+
+            const existingId = localStorage.getItem('uniqueId');
+
+            if (newId && newPassword) {
+                if (newId === existingId) {
+                    alert('This Unique ID is already in use. Please choose another.');
+                }else {
+                    // Store credentials
+                    localStorage.setItem('uniqueId', newId);
+                    localStorage.setItem('password', newPassword);
+                    document.body.innerHTML = `
+                    <h2>Registration Successfull!</h2>
+                    <p>Your Unique ID has been registered. Click <a href="default.html">here</a> to login.</p>
+                    `;
+                }
+                
+            } else {
+                alert('Please fill out all fields.');
+            }
+        }
+    </script>
+</body>
+</html>

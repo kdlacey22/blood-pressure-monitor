@@ -1,0 +1,55 @@
+/* Navbar Styles */
+.navbar {
+    background-color: #007bff; /* Primary app color */
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky; /* Make navbar sticky */
+    top: 0;
+    z-index: 1000; /* Ensure visibility */
+}
+
+/* Navigation Button Styles */
+.nav-btn {
+    margin: 5px;
+    padding: 10px 20px;
+    color: #fff; /* White */
+    text-decoration: none;
+    border: 1px solid #0056b3; /* Border color */
+    border-radius: 4px;
+    background-color: #0056b3; /* Background */
+    font-size: 16px;
+    display: inline-block;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-btn:hover,
+.nav-btn:focus {
+    background-color: #003f7f; /* Hover color */
+    color: white;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 0, 255, 0.5);
+}
+
+.nav-btn.active {
+    background-color: #003f7f; /* Color for active page */
+    border: none;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .navbar {
+        text-align: left;
+        padding: 10px 5px;
+    }
+
+    .nav-btn {
+        display: block;
+        margin: 5px 0;
+        width: 100%;
+        font-size: 18px;
+        padding: 12px 20px;
+    }
+}

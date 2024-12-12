@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" manifest="manifest.appcache">
+<head>
+    <title>Blood Pressure Graph</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <script src="scripts/jquery-1.9.1.min.js"></script>
+    <script src="scripts/jquery.mobile-1.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+</head>
+
+<body>
+    <div id="navbar"></div> <!-- Navigation bar -->
+    <div data-role="page" id="graphPage">
+        <div data-role="header">
+            <h1>Blood Pressure Graph</h1>
+        </div>
+        <div data-role="content">
+            <canvas id="bpGraph" width="400" height="400"></canvas>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('bpGraph').getContext('2d');
+
+            // Retrieve data
+            let bpData = JSON.parse(localStorage.getItem('bpData')) || [];
+            const dates = bpData.map(entry => entry.date);
+            const systolicValues = bpData.map(entry => entry.systolic);
+            const diastolicValues = bpData.map(entry => entry.diastolic);
+
+            // Check if there's data to graph
+            if (bpData.length === 0) {
+                ctx.font = '16px Arial';
+                ctx.fillText('No data available to display.', 10, 50);
+                return;
+            }
+
+            // Chart
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: 'Systolic',
+                            data: systolicValues,
+                            borderColor: 'red',
+                            fill: false,
+                        },
+                        {
+                            label: 'Diastolic',
+                            data: diastolicValues,
+                            borderColor: 'blue',
+                            fill: false,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { title: { display: true, text: 'Date' } },
+                        y: { title: { display: true, text: 'Blood Pressure' } },
+                    },
+                },
+            });
+        });
+    </script>
+    <script src="scripts/nav.js"></script> <!-- reusable navigation script -->
+</body>
+</html>

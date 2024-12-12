@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" manifest="manifest.appcache">
+<head>
+    <title>Update Personal Information</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <script src="scripts/jquery-1.9.1.min.js"></script>
+    <script src="scripts/jquery.mobile-1.3.1.min.js"></script>
+</head>
+
+<body>
+    <div id="navbar"></div> <!-- Navigation bar -->
+    <div data-role="page" id="updateInfoPage">
+        <!-- Header -->
+        <div data-role="header">
+            <h1>Update Personal Information</h1>
+        </div>
+        
+        <!-- Content -->
+        <div data-role="content">
+            <form id="updateForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+
+                <label for="insurance">Health Insurance Card Number:</label>
+                <input type="text" id="insurance" name="insurance">
+
+                <label for="newPassword">Set/Update Password:</label>
+                <input type="password" id="newPassword" name="newPassword">
+
+                <button type="button" onclick="saveInfo()">Save Information</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Populate form with saved values
+            document.getElementById('name').value = localStorage.getItem('name') || '';
+            document.getElementById('dob').value = localStorage.getItem('dob') || '';
+            document.getElementById('insurance').value = localStorage.getItem('insurance') || '';
+        });
+
+        function saveInfo() {
+            const name = document.getElementById('name').value;
+            const dob = document.getElementById('dob').value;
+            const insurance = document.getElementById('insurance').value;
+            const newPassword = document.getElementById('newPassword').value;
+
+            // Save the values to localStorage
+            localStorage.setItem('name', name);
+            localStorage.setItem('dob', dob);
+            localStorage.setItem('insurance', insurance);
+
+            // Save new password if provided
+            if (newPassword) {
+                localStorage.setItem('password', newPassword);
+                alert('Password updated successfully!');
+            } else {
+                alert('Information saved successfully!');
+            }
+        }
+    </script>
+    <script src="scripts/nav.js"></script> <!--reusable navigation script -->
+</body>
+</html>

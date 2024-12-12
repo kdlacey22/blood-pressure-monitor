@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" manifest="manifest.appcache">
+<head>
+    <title>Blood Pressure Monitor</title>
+    
+    <!-- Adjusting the page on mobile screens -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <script src="scripts/jquery-1.9.1.min.js"></script>
+    <script src="scripts/jquery.mobile-1.3.1.min.js"></script>
+</head>
+
+<body>
+    <div id="navbar"></div> <!-- Navigation bar-->
+    <div data-role="page" id="loginPage">
+        <div data-role="header">
+            <!-- Header -->
+            <h1>Blood Pressure Monitor</h1>
+        </div>
+
+        <!-- Content -->
+        <div data-role="content">
+            <form onsubmit="return false;">
+                <label for="uniqueId">Enter Unique ID:</label>
+                <input type="text" id="uniqueId" required>
+                <label for="password">Enter Password:</label>
+                <input type="password" id="password" required>
+                <button type="button" onclick="navigateToMenu()">Login</button>
+                <p>Don't have an account? <a href="register.html">Create a New Personal ID</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function navigateToMenu() {
+            const enteredId = document.getElementById('uniqueId').value;
+            const enteredPassword = document.getElementById('password').value;
+
+            // Default Password if not set is '1234'
+            const storedId = localStorage.getItem('uniqueId') || 'defaultID';
+            const storedPassword = localStorage.getItem('password') || '1234';
+
+            if (enteredId === storedId && enteredPassword === storedPassword) {
+                window.location.href = "menu.html"; // Navigate to main menu
+            } else {
+                alert('Incorrect Unique ID or Password. Please try again.');
+            }
+        }
+    </script>
+    <script src="scripts/nav.js"></script> <!--reusable navigation script -->
+</body>
+</html>

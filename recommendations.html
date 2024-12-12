@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" manifest="manifest.appcache">
+<head>
+    <title>Recommendations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <script src="scripts/jquery-1.9.1.min.js"></script>
+    <script src="scripts/jquery.mobile-1.3.1.min.js"></script>
+</head>
+
+<body>
+    <div id="navbar"></div> <!-- Navigation bar -->
+    <div data-role="page" id="recommendationsPage">
+        <div data-role="header">
+            <h1>Recommendations</h1>
+        </div>
+        <div data-role="content">
+            <p>Your latest blood pressure readings suggest:</p>
+            <div id="recommendations"></div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const recommendations = document.querySelector('#recommendations');
+            let bpData = JSON.parse(localStorage.getItem('bpData')) || [];
+
+            if (bpData.length === 0) {
+                recommendations.innerHTML = '<p>No blood pressure data available.</p>';
+                return;
+            }
+
+            const latest = bpData[bpData.length - 1];
+            const systolic = parseInt(latest.systolic, 10);
+            const diastolic = parseInt(latest.diastolic, 10);
+
+            if (systolic > 140 || diastolic > 90) {
+                recommendations.innerHTML = '<p>Your blood pressure is high. Please consult a doctor.</p>';
+            } else if (systolic < 90 || diastolic < 60) {
+                recommendations.innerHTML = '<p>Your blood pressure is low. Increase hydration and consult if needed.</p>';
+            } else {
+                recommendations.innerHTML = '<p>Your blood pressure is normal. Keep monitoring regularly.</p>';
+            }
+        });
+    </script>
+    <script src="scripts/nav.js"></script> <!-- reusable navigation script -->
+</body>
+</html>
